@@ -1,0 +1,109 @@
+<!-- 
+    CSS3 Effects
+
+    Sample code from W3Schools
+    https://www.w3schools.com/w3css/w3css_effects.asp
+    
+    Use a standard image from shopping cart
+    Add CSS3 effects without using the W3S.CSS stylesheet - ie native CSS
+
+
+
+ -->
+<h2>CSS3 Effects</h2>
+<div class="canvas-container opacity">
+    <div class="title">Opacity</div>
+    <img src="/static/img/workshop.jpg" alt="100%" class="opacity-normal">  
+    <img src="/static/img/workshop.jpg" alt="90%" class="opacity-max">  
+    <img src="/static/img/workshop.jpg" alt="50%" class="opacity-half">  
+    <img src="/static/img/workshop.jpg" alt="10%" class="opacity-min">  
+</div>
+<style>
+    .canvas-container {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .container img {
+        width: 20%
+    }
+    .opacity-normal {
+        opacity:1;
+    }
+    .opacity-min {
+        opacity: 0.1;
+    }
+    .opacity-half {
+        opacity: 0.5;
+    }
+    .opacity-max {
+        opacity: 0.9;
+    }
+
+</style>
+<div class="canvas-container grayscale">
+    <div class="title">Grayscale</div>
+    <img src="/static/img/workshop.jpg" alt="0%" class="grayscale-normal">  
+    <img src="/static/img/workshop.jpg" alt="10%" class="grayscale-min">  
+    <img src="/static/img/workshop.jpg" alt="50%" class="grayscale-half">  
+    <img src="/static/img/workshop.jpg" alt="100%" class="grayscale-max">  
+</div>
+<style>
+    .grayscale-normal {
+        filter: grayscale(0%);
+    }
+    .grayscale-min {
+        filter: grayscale(30%);
+    }
+    .grayscale-half {
+        filter: grayscale(50%);
+    }
+    .grayscale-max {
+        filter: grayscale(100%);
+    }
+
+</style>
+<div class="canvas-container sepia">
+    <div class="title">Sepia</div>
+    <img src="/static/img/workshop.jpg" alt="0%" class="sepia-normal">  
+    <img src="/static/img/workshop.jpg" alt="10%" class="sepia-min">  
+    <img src="/static/img/workshop.jpg" alt="50%" class="sepia-half">  
+    <img src="/static/img/workshop.jpg" alt="100%" class="sepia-max">  
+</div>
+<style>
+    .sepia-normal {
+        filter: sepia(0%);
+    }
+    .sepia-min {
+        filter: sepia(30%);
+    }
+    .sepia-half {
+        filter: sepia(50%);
+    }
+    .sepia-max {
+        filter: sepia(100%);
+    }
+
+</style>
+<div class="canvas-container hover">
+    <div class="title">Blur on Hover</div>
+    <img src="/static/img/workshop.jpg" alt="0%" class="hover-normal">  
+    <img src="/static/img/workshop.jpg" alt="10%" class="hover-min">  
+    <img src="/static/img/workshop.jpg" alt="50%" class="hover-half">  
+    <img src="/static/img/workshop.jpg" alt="100%" class="hover-max">  
+</div>
+<style>
+    .hover-normal:hover {
+        filter: blur(0px);
+    }
+    .hover-min:hover {
+        filter: blur(1px);
+    }
+    .hover-half:hover {
+        filter: blur(2px);
+    }
+    .hover-max:hover {
+        filter: blur(3px);
+    }
+
+</style>

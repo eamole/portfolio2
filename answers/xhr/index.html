@@ -1,0 +1,116 @@
+<!-- 
+    Sample code from W3Schools
+    https://www.w3schools.com/xml/xml_http.asp
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        // Typical action to be performed when the document is ready:
+        document.getElementById("demo").innerHTML = xhttp.responseText;
+        }
+    };
+    xhttp.open("GET", "filename", true);
+    xhttp.send();
+
+
+ -->
+
+<h2>Sample use of XMLHttpRequest Object</h2>
+
+<style>
+    .product {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        background-color: lightgray;
+        display: block;
+        padding: 3px;
+    }
+    .name, .price {
+        width: 40%;
+        padding: 3px;
+        margin: 3px;
+    }
+
+</style>
+
+
+<button id="load">Load Product Data - Success</button>
+<button id="load-error">Load Product Data - Error</button>
+<div id="content">
+    <!-- content will appear here -->
+</div>
+
+<script>
+    let xhr = new XMLHttpRequest()
+    // hook the "load" event rather than the readystatechange - simpler
+    xhr.onload = (ev) => {
+        // avoid rendering on error
+        if(xhr.status == 200) {
+
+            let json = xhr.responseText // get the json out of the response
+            let data = JSON.parse(json) // convert json to javascript object
+            renderData(data)    // render the data as a list
+        }
+    }
+
+    // use loadend to check for errors
+    xhr.onloadend = (ev) => {
+        if(xhr.status !== 200) { // anything other than 200 is an error
+            let html = `An eror occurred in XHR Request: ${xhr.status} ${xhr.responseText}`
+        
+            $("#content").html(html)
+
+        }
+    }
+
+    $("#load").on("click", () => {
+    
+        // now config the request
+        xhr.open("get", "/static/js/products.json") // MUST NOW BE ASYNC - the default
+        xhr.send()
+        // the onload above will fire when content is loaded
+
+    })
+
+    $("#load-error").on("click", () => {
+    
+        // now config the request
+        xhr.open("get", "/static/js/products2.json") // MUST NOW BE ASYNC - the default
+        xhr.send()
+        // the onload above will fire when content is loaded
+
+    })
+
+    // wrap the data in HTML and insert into the DOM
+    let renderData = (data) => {
+        let html = "<ul>"
+        data.forEach(product => {
+            // see the CSS below
+            html += `
+            <li class="product">
+                <span class="name">${product.name}</span>
+                <span class="price money">${product.price}</span>
+            </li>`
+        })
+        html += "</ul>"
+        $("#content").html(html)
+    }
+</script>
+
+<!-- 
+    
+    This code was used to render products.js as json so it could be loaded
+    
+    <script src="/static/js/products.js"></script> 
+    <button id="render-products">Render Products as JSON</button>
+
+    //allows us to convert products.js to json
+    $("#load-products").on("click", () => {
+        let products = window.products  // pull out of global namespace
+        let json = JSON.stringify(products)
+        let html = `<pre>${json}</pre>`
+        $("#content").html(html)
+    })
+
+-->
+

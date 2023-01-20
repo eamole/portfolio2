@@ -1,0 +1,175 @@
+<!-- 
+    This is a Canvas sample code
+
+    Sample Code from W3Schools
+    https://www.w3schools.com/graphics/canvas_intro.asp
+    https://www.w3schools.com/graphics/canvas_drawing.asp
+
+
+ -->
+ <style>
+    /* treat all divs inside the buttons div as "buttons" */
+    .buttons div {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+        cursor: pointer; /* look clickable */
+        display: inline-block;
+        text-align: center;
+    }
+    canvas {
+        width: 100%;
+        height: 100%;
+        border: 1px solid darkgray;
+        /* background-color: black; */
+    }
+    #image {
+        /* invisible until added to canvas */
+        display: none; 
+    }
+ </style>
+ <h2>Canvas and Drawing with JS Example</h2>
+ 
+ <!-- we will use this image later on the canvas -->
+ <img src="/static/img/workshop.jpg" alt="" id="image">
+
+ <canvas id="my-canvas"></canvas>
+ <div class="buttons">
+    <span>
+        Draw 
+        <div id="draw-line">Line</div>
+        <div id="draw-circle">Circle</div>
+        <div id="draw-square">Square</div>
+
+    </span>
+    <span>
+        Linear Gradients
+        <div id="draw-linear-gradient-l-r">L->R</div>
+        <div id="draw-linear-gradient-r-l">R->L</div>
+        <div id="draw-linear-gradient-t-b">T->B</div>
+        <div id="draw-linear-gradient-b-t">B->T</div>
+        <div id="draw-radial-gradient">Radial</div>
+        <div id="draw-text">Text</div>
+        <div id="draw-image">Image</div>
+    </span>
+</div>
+
+ <script>
+
+    let canvas = $("#my-canvas")[0] // not sure why, but JQ returns a list of 1, even though ID selector
+    let ctx = canvas.getContext("2d")
+
+    let drawCircle = (x, y, r) => {
+        ctx.beginPath()
+        ctx.arc(x, y, r, 0, 2 * Math.PI)    // draw an arc at x,y with radius r, and a sweep of 2*PI radians
+        ctx.stroke();
+    }
+
+    $("#draw-line").click(() => {
+        ctx.strokeStyle = "blue"
+        ctx.moveTo(10,10)
+        ctx.lineTo(50,50)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-circle").click(() => {
+        ctx.strokeStyle = "green"
+        drawCircle(50, 50, 20)
+    })
+    $("#draw-square").click(() => {
+        ctx.strokeStyle = "red"
+        ctx.fillStyle = "#66ccff"   // light blue
+        ctx.fillRect(50, 50, 100, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-linear-gradient-l-r").click(() => {
+        let grad = ctx.createLinearGradient(0, 0, 150, 0)
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.fillRect(50, 50, 100, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-linear-gradient-r-l").click(() => {
+        let grad = ctx.createLinearGradient(150, 0, 0, 0)
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.fillRect(50, 50, 100, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-linear-gradient-t-b").click(() => {
+        let grad = ctx.createLinearGradient(0, 0, 0, 150)
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(0.5, "#3333cc") // dark blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.fillRect(50, 50, 100, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-linear-gradient-b-t").click(() => {
+        let grad = ctx.createLinearGradient(0, 150, 0, 0)
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(0.5, "#3333cc") // dark blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.fillRect(50, 50, 100, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-radial-gradient").click(() => {
+        let grad = ctx.createRadialGradient(75, 50, 5, 90, 60, 100) // x0,y0,r0 ,x1,y1,r1
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(1, "#3333cc") // dark blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.fillRect(10, 10, 150, 80)
+        ctx.stroke()    // draw it!!
+    })
+
+    $("#draw-text").click(() => {
+        let grad = ctx.createLinearGradient(150, 0, 0, 0)
+        grad.addColorStop(0, "#66ccff") // light blue
+        grad.addColorStop(1, "#ffffff") // white
+        ctx.fillStyle = grad
+        ctx.strokeStyle = "black"
+        ctx.font = "20px Arial"
+        ctx.fillText("This is text with a gradient fill", 10, 50)
+        ctx.strokeText("This is text with a stroke style", 10, 100)
+        ctx.stroke()    // draw it!!
+    })
+    $("#draw-image").click(() => {
+        let img = $("#image")[0]    // jq quirk - should really give only 1 element on ID selector, not a list
+        ctx.drawImage(img, 40, 40, 130, 130)
+
+        // ctx.drawImage(scaleImageToFitCanvas(img, 130, 130), 40, 40)
+    })
+    /*
+        I turns out that drawing images on canvas is a lot more complicated than placing in document
+        we need to scale the image to fit the canvas
+        we specify the width and height we wish the image to be
+
+        Not necessary!! You can simply pass in the desired width and height as arguments to drawImage
+
+    */
+    let scaleImageToFitCanvas = (img, w, h) => {
+        // calc the scaling factor so the width and height will fit, assuming we will be scaling down
+        let scale = Math.min((w/img.width), (h/img.height))
+        // calc the new width & height of img to fit
+        let newW = w * scale
+        let newH = h * scale
+
+        let canvas = document.createElement("canvas")
+        // scale the canvas to hold the img
+        canvas.width = newW
+        canvas.height = newH
+        // now draw the image on out temporary canvas
+        let ctx = canvas.getContext("2d")
+        ctx.drawImage(img, 0, 0, newW, newH)
+        // now return the canvas, which is full of the image
+        // NBB: canvas will happily draw another canvas within itself - as an image!!
+        return canvas 
+    }
+
+
+
+ </script>

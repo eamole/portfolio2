@@ -1,0 +1,110 @@
+<!-- 
+    CSS3 Animations (task E.2)
+
+    W3Schools Samples
+    https://www.w3schools.com/css/css3_animations.asp
+
+     /* The animation code */
+        @keyframes example {
+            from {background-color: red;}
+            to {background-color: yellow;}
+        }
+
+        /* The element to apply the animation to */
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            animation-name: example;
+            animation-duration: 4s;
+        } 
+
+
+
+ -->
+<h2>CSS3 Animations (Task E.2)</h2>
+
+<style>
+    .box {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    /* The animation code */
+    @keyframes animation1 {
+        from {background-color: red;}
+        to {background-color: yellow;}
+    }
+
+    /* The element to apply the animation to */
+    #div1 {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        animation-name: animation1;
+        animation-duration: 4s;
+    }
+
+    /* The animation code */
+    @keyframes animation2 {
+        0%   {background-color: red;}
+        25%  {background-color: yellow;}
+        50%  {background-color: blue;}
+        100% {background-color: green;}
+    }
+
+    #div2 {
+        position: relative; /* so we can position the box */
+        width: 120px;
+        transition: transform 4s;
+    }
+
+    #div2.rotate {
+        transform: rotate(360deg)
+    }
+
+    @keyframes animation3 {
+        0%   {background-color: red; left:0px; top:0px; color:black;}
+        25%  {background-color: yellow; left:0px; top:100px}
+        50%  {background-color: blue; left:100px; top:100px; color:white;}
+        75%  {background-color: blue; left:100px; top:0px}
+        100% {background-color: green; left:0px; right:0px}
+    }
+
+</style>
+
+<div id="div1" class="box">This is the basic W3School sample</div>
+<button id="anim1" disabled>Please wait...</button>
+<div id="div2" class="box">This will animate the colours and position of the div. Please click!!</div>
+
+
+<script>
+    $("#div1").on("animationend", function () {
+        console.log('animation end', this)
+        $("#anim1").prop("disabled", false) // activate the button when the 1st animation ends
+        $("#anim1").text("Run the next animation", false) // activate the button when the 1st animation ends
+    })
+
+    $("#anim1").click(function(){
+        // we need to change the name of the
+        $("#div1")[0].style.animationName = "animation2"
+        $("#div1").on("animationend", function() {  // this is #div1 in the function
+            this.style.animationName = "none"
+            $("#anim1").text("Run animation again?")
+        }) 
+    })
+
+    $("#div2").click(function() {   // this = #div2
+        this.classList.toggle("rotate")
+        this.style.animationDuration = "3s" 
+        this.style.animationName = "animation3" 
+    })
+
+    $("#div2").on("animationend", function() {  // this is #div1 in the function
+        console.log('animation end', this)
+        this.style.animationName = "none"
+        $("#anim1").text("Run animation again?")
+    }) 
+
+
+</script>

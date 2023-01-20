@@ -1,0 +1,37 @@
+    /* create a 2 col layout */
+    #app.container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; /* make 2nd column float to right */
+    }
+    #side-nav-container {
+        width: 30%;
+        height: 100%;
+        min-height: 200px;
+        display: block;
+        border: 1px solid darkgray;  /* just to see it */
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+    }
+    #canvas-container {
+        min-width: 50%;
+        height:100%;
+        min-height: 200px;
+        display: block;
+        border: 1px solid darkgray;  /* just to see it */
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .money::before {
+        content: "€ "
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+    #side-nav-container a {
+        display: block;
+    }

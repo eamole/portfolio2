@@ -1,0 +1,102 @@
+<!-- 
+
+    E.1: CSS Transitions - plus code to detect transition end (see task E.3)
+
+    Sample W3Schools Code
+    https://www.w3schools.com/css/css3_transitions.asp (task E.1)
+    
+    https://www.w3schools.com/jsref/event_transitionend.asp (task E.3)
+
+
+ -->
+
+ <style>
+    /* use these classes to create commonality across boxes  */
+    .box, .box2 {
+        width: 150px;
+        height: 80px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid darkgray;
+        border-radius: 5px;
+
+    }
+
+    .box:hover {
+        width: 200px;
+        height: 100px;
+    }
+
+    #div1 {
+        background: red;
+        transition: width 2s, height 2s;
+    }
+
+    #div2 {
+        background: lightgray;
+        color: black;
+        transition: width 2s, height 2s, background-color 3s, color 3s;
+    }
+
+    #div2:hover {
+        color:white;
+        background-color: black;
+    }
+
+    #div3 {
+        background: lightgray;
+        color: black;
+        font-size: 12pt;
+        transition: width 2s, height 2s, background-color 3s, color 3s, font-size 3s;
+    }
+
+    #div3.clicked {
+        color:white;
+        font-size: 15pt;
+        background-color: black;
+        width: 200px;
+    }
+
+    #div4 {
+        width: 100px;
+        height: 100px;
+        transition: width 2s, height 2s, background-color 3s, color 3s, transform 3s;
+    }
+
+    #div4:hover {
+        width: 150px;
+        height: 150px;
+        transform: rotate(180deg);
+    }
+
+ </style>
+
+<h2>CSS3 - Transitions</h2>
+
+<div id="status"></div>
+
+<div id="div1" class="box">Please hover!! The width & height will change</div>
+<div id="div2" class="box">Please hover!! The width & height & fore/background colour will change</div>
+<div id="div3" class="box2">Please Click!!</div>
+<div id="div4" class="box2">Please Hover!! This will rotate</div>
+
+<script>
+    $("#div3").click( function() {  // use function syntax to get "this"
+        this.classList.toggle("clicked")
+        this.innerHTML = "We have added a class, which will trigger the transition"
+
+    })
+    $("#div3").mouseout(function () {
+        this.classList.toggle("clicked")
+        this.innerHTML = "We have removed the class, so the transition will reverse. Click me again!!"
+
+    })
+    /*
+        detect the end of a transition (see task E.3)
+    */
+    $("#div4").on("transitionend", function() {
+        this.innerHTML = "Transition End: Please Hover Again!!"
+    })
+
+
+</script>

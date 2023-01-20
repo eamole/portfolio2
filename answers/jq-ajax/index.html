@@ -1,0 +1,103 @@
+<!-- 
+    Implement JQuery Ajax method
+
+    Sample code from W3Schools
+    https://www.w3schools.com/jquery/ajax_ajax.asp
+   
+    $("button").click(function(){
+        $.ajax({url: "demo_test.txt", success: function(result){
+            $("#div1").html(result);
+        }});
+    });
+
+ -->
+
+<h2>Sample use of Jquery Ajax method</h2>
+
+<style>
+    .product {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        background-color: lightgray;
+        display: block;
+        padding: 3px;
+    }
+    .name, .price {
+        width: 40%;
+        padding: 3px;
+        margin: 3px;
+    }
+
+</style>
+
+
+<button id="load">Load Product Data - Success</button>
+<button id="load-error">Load Product Data - Error</button>
+<div id="content">
+    <!-- content will appear here -->
+</div>
+
+<script>
+    let config = {
+        dataType: "JSON",   // jquery will handle json conversion
+        success (result) {
+            let html = renderData(result)
+            $("#content").html(html);
+        }, 
+        error (result) {
+            let html = `An error occurred in Jquery Ajax: ${result.status} ${result.statusText}`
+            $("#content").html(html);
+        }
+    }
+    
+
+    $("#load").click(() => {
+
+        $.ajax({
+            url: "/static/js/products.json", // supply url to config object
+            ...config           // use spread operator to attach the general props from config
+        })
+    })
+
+    $("#load-error").click(() => {
+        $.ajax({
+            url: "/static/js/products2.json",
+            ...config
+        });
+    });
+
+
+    
+    // wrap the data in HTML and insert into the DOM
+    let renderData = (data) => {
+        let html = "<ul>"
+        data.forEach(product => {
+            // see the CSS below
+            html += `
+            <li class="product">
+                <span class="name">${product.name}</span>
+                <span class="price money">${product.price}</span>
+            </li>`
+        })
+        html += "</ul>"
+        return html
+    }
+</script>
+
+<!-- 
+    
+    This code was used to render products.js as json so it could be loaded
+    
+    <script src="/static/js/products.js"></script> 
+    <button id="render-products">Render Products as JSON</button>
+
+    //allows us to convert products.js to json
+    $("#load-products").on("click", () => {
+        let products = window.products  // pull out of global namespace
+        let json = JSON.stringify(products)
+        let html = `<pre>${json}</pre>`
+        $("#content").html(html)
+    })
+
+-->
+
