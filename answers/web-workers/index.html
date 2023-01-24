@@ -1,0 +1,45 @@
+<h2>Web Workers</h2>
+<div id="status"></div>
+
+<button id="start">Start</button>
+<button id="stop">Stop</button>
+<div><span>Mins</span><span id="mins"></span><span>Secs</span><span id="secs"></span></div>
+
+<script>
+    // wait until doc ready, and create a variable safe scope
+    $(document).ready(() => {
+
+        if(!window.Worker) { // browser supports web workers
+            $("#status").text("This browser does not suport web workers")
+            return        
+        }
+        // NBB the path - this HTML fragment is loaded into the index page at "/", so that is were we must search from
+        const worker = new Worker("/answers/web-workers/worker.js")
+
+        worker.onmessage = (ev) => {    // receive a message from the web worker
+            console.log('message from worker', ev)
+            let msg = JSON.parse(ev.data)   // convert from text to an object 
+            $("#mins").text(msg.mins)
+            $("#secs").text(msg.secs)
+        }
+
+        $("#start").click( () => {
+            $("#status").text("Started")
+            worker.postMessage('start')
+        })
+        $("#stop").click( () => {
+            $("#status").text("Stopped")
+            worker.postMessage('stop')
+        })
+
+    })
+
+</script>
+<style>
+    span {
+        display: inline-block;
+        min-width: 20px;
+        padding: 5px;
+
+    }
+</style>
